@@ -14,28 +14,28 @@ export const generateUserId = async () => {
   const incrementId = (parseInt(currentId) + 1).toString().padStart(5, '0')
   return incrementId
 } */
-import { User } from './users.model'
+import { User } from './user.model';
 const generateUserId = async () => {
   //get current year
-  const currentYear = new Date().getFullYear().toString().slice(-2)
+  const currentYear = new Date().getFullYear().toString().slice(-2);
 
   // get last user id fgorm db
   const lastUserId = await User.findOne({}, { id: 1, _id: 0 })
     .sort({
       createdAt: -1,
     })
-    .lean()
+    .lean();
 
-  let actualId: string
+  let actualId: string;
   if (lastUserId) {
-    const lastId = lastUserId.id.slice(-4)
+    const lastId = lastUserId.id.slice(-4);
 
-    const nextId = (parseInt(lastId) + 1).toString().padStart(4, '0')
-    actualId = nextId
+    const nextId = (parseInt(lastId) + 1).toString().padStart(4, '0');
+    actualId = nextId;
   } else {
-    actualId = '0001'
+    actualId = '0001';
   }
-  const id = `${currentYear}-${actualId}`
-  return id
-}
-export default generateUserId
+  const id = `${currentYear}-${actualId}`;
+  return id;
+};
+export default generateUserId;
